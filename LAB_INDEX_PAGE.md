@@ -1,5 +1,8 @@
 # Lab Activity: Building the Home Page with useState and Lists
 
+> **⚠️ IMPORTANT: Type all code yourself!**  
+> This lab is designed for learning. Copy-pasting code will prevent you from understanding the concepts. Type each line of code manually to build muscle memory and comprehension.
+
 ## Objective
 Create a mobile streaming application home page that displays movie data using React Native's `useState` hook and renders lists from arrays. This lab focuses on understanding state management, data arrays, and React Native StyleSheet for styling.
 
@@ -10,6 +13,8 @@ Create a mobile streaming application home page that displays movie data using R
 - Android Studio installed with Android Emulator configured
 - A code editor (VS Code recommended)
 - Basic understanding of React Native components
+
+> **💡 Learning Tip:** Throughout this lab, you'll see code examples. **Type every line yourself** - don't copy-paste! Typing code helps build muscle memory and deepens your understanding of the syntax and concepts.
 
 ## Duration
 Estimated time: 2-3 hours
@@ -71,12 +76,14 @@ npm install @expo/vector-icons
 const [stateName, setStateName] = useState(initialValue);
 ```
 
-**Example:**
+**Examples (type these yourself to practice):**
 ```typescript
 const [count, setCount] = useState(0);
 const [movies, setMovies] = useState([]);
 const [isLoading, setIsLoading] = useState(true);
 ```
+
+**Practice:** Type each example above to get familiar with the useState syntax pattern.
 
 ### Step 2.2: Why Use useState?
 
@@ -89,10 +96,14 @@ const [isLoading, setIsLoading] = useState(true);
 
 ## Part 3: Creating the Data Array
 
+> **📝 From this point forward, you'll be typing code.**  
+> All code examples should be typed manually. Take your time, read each line, and understand what you're typing. This is how you'll learn!
+
 ### Step 3.1: Create Movie Data Array
 
-We'll create a hardcoded array of movies. Open `app/(tabs)/index.tsx` and add this data structure at the top of the file (outside the component):
+We'll create a hardcoded array of movies. Open `app/(tabs)/index.tsx` and **type** this data structure at the top of the file (outside the component):
 
+**First, define the Movie interface:**
 ```typescript
 // Movie data interface
 interface Movie {
@@ -103,9 +114,13 @@ interface Movie {
   genre: string;
   thumbnail: string;
 }
+```
 
+**Then, create the movies array. Type each movie object yourself:**
+```typescript
 // Hardcoded movie data array
 const MOVIES_DATA: Movie[] = [
+  // Type the first movie object here
   {
     id: '1',
     title: 'The Dark Knight',
@@ -114,50 +129,17 @@ const MOVIES_DATA: Movie[] = [
     genre: 'Action',
     thumbnail: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=400',
   },
-  {
-    id: '2',
-    title: 'Inception',
-    year: 2010,
-    rating: 8.8,
-    genre: 'Sci-Fi',
-    thumbnail: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400',
-  },
-  {
-    id: '3',
-    title: 'Interstellar',
-    year: 2014,
-    rating: 8.6,
-    genre: 'Sci-Fi',
-    thumbnail: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400',
-  },
-  {
-    id: '4',
-    title: 'The Matrix',
-    year: 1999,
-    rating: 8.7,
-    genre: 'Action',
-    thumbnail: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400',
-  },
-  {
-    id: '5',
-    title: 'Pulp Fiction',
-    year: 1994,
-    rating: 8.9,
-    genre: 'Crime',
-    thumbnail: 'https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400',
-  },
-  {
-    id: '6',
-    title: 'The Shawshank Redemption',
-    year: 1994,
-    rating: 9.3,
-    genre: 'Drama',
-    thumbnail: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=400',
-  },
+  // Now add 5 more movie objects with these details:
+  // - Inception (2010, 8.8, Sci-Fi)
+  // - Interstellar (2014, 8.6, Sci-Fi)
+  // - The Matrix (1999, 8.7, Action)
+  // - Pulp Fiction (1994, 8.9, Crime)
+  // - The Shawshank Redemption (1994, 9.3, Drama)
+  // Use similar Unsplash image URLs for thumbnails
 ];
 ```
 
-**Note:** You can add more movies to this array or modify the existing ones.
+**Note:** Type each movie object manually. You can add more movies or modify the existing ones. The structure should match the Movie interface you defined above.
 
 ---
 
@@ -165,10 +147,13 @@ const MOVIES_DATA: Movie[] = [
 
 ### Step 4.1: Import Required Components
 
-At the top of your `index.tsx` file, add these imports:
+At the top of your `index.tsx` file, **type** these imports yourself:
 
 ```typescript
+// Import React and useState hook
 import React, { useState } from 'react';
+
+// Import React Native components - type each one:
 import {
   View,
   Text,
@@ -176,25 +161,30 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   Dimensions,
 } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+// Import Feather icons
 import { Feather } from '@expo/vector-icons';
 ```
 
+**Remember:** Type each import statement manually. This helps you understand what components you're using.
+
 ### Step 4.2: Initialize useState Hooks
 
-Inside your component function, add useState hooks to manage different pieces of state:
+Inside your component function, **type** these useState hooks to manage different pieces of state:
 
 ```typescript
 export default function HomeScreen() {
-  // State for storing the list of movies
+  // Type this useState hook for storing the list of movies
   const [movies, setMovies] = useState<Movie[]>([]);
   
-  // State for loading indicator
+  // Type this useState hook for loading indicator
   const [isLoading, setIsLoading] = useState(true);
   
-  // State for featured movie (optional)
+  // Type this useState hook for featured movie (optional)
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
 
   // Rest of your component code...
@@ -202,38 +192,46 @@ export default function HomeScreen() {
 ```
 
 **Explanation:**
-- `movies`: Array to store all movies
-- `isLoading`: Boolean to show/hide loading indicator
-- `featuredMovie`: Single movie object for featured section
+- `movies`: Array to store all movies (initialized as empty array)
+- `isLoading`: Boolean to show/hide loading indicator (initialized as `true`)
+- `featuredMovie`: Single movie object for featured section (initialized as `null`)
+
+**Practice:** Type each `useState` hook yourself. Notice the pattern: `const [stateName, setStateName] = useState(initialValue);`
 
 ### Step 4.3: Load Data into State
 
-Create a function to load movies into state. Add this inside your component:
+**Type** a function to load movies into state. Add this inside your component:
 
 ```typescript
-// Function to load movies
+// Type this function to load movies
 const loadMovies = () => {
+  // First, set loading to true
   setIsLoading(true);
   
-  // Simulate loading delay (optional, for demonstration)
+  // Use setTimeout to simulate loading delay
   setTimeout(() => {
+    // Load the movies array into state
     setMovies(MOVIES_DATA);
-    setFeaturedMovie(MOVIES_DATA[0]); // Set first movie as featured
+    // Set the first movie as featured
+    setFeaturedMovie(MOVIES_DATA[0]);
+    // Set loading to false
     setIsLoading(false);
   }, 1000);
 };
 
-// Call loadMovies when component mounts
+// Type this useEffect to call loadMovies when component mounts
 React.useEffect(() => {
   loadMovies();
 }, []);
 ```
 
 **What this does:**
-- Sets loading to `true`
-- After 1 second, loads the movies array into state
+- Sets loading to `true` when function starts
+- After 1 second delay, loads the movies array into state
 - Sets the first movie as featured
-- Sets loading to `false`
+- Sets loading to `false` to hide loading indicator
+
+**Practice:** Type the entire function yourself. Pay attention to how state setters (`setMovies`, `setIsLoading`) are used.
 
 ---
 
@@ -241,28 +239,21 @@ React.useEffect(() => {
 
 ### Step 5.1: Basic Component Structure
 
-Replace your existing component with this structure:
+**Build your component step by step.** Type each section yourself:
 
+**Step 1: Start with the component function and state hooks** (you already have these from Step 4):
 ```typescript
 export default function HomeScreen() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
 
-  const loadMovies = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setMovies(MOVIES_DATA);
-      setFeaturedMovie(MOVIES_DATA[0]);
-      setIsLoading(false);
-    }, 1000);
-  };
+  // ... your loadMovies function and useEffect here ...
+```
 
-  React.useEffect(() => {
-    loadMovies();
-  }, []);
-
-  // Loading state
+**Step 2: Add the loading state check. Type this conditional return:**
+```typescript
+  // Loading state - type this if statement
   if (isLoading) {
     return (
       <SafeAreaView style={styles.container}>
@@ -272,10 +263,22 @@ export default function HomeScreen() {
       </SafeAreaView>
     );
   }
+```
 
+**Step 3: Build the main return statement. Start with the outer structure:**
+```typescript
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.scrollView}>
+        {/* You'll add content here */}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+```
+
+**Step 4: Add the Header section. Type this inside ScrollView:**
+```typescript
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>StreamFlix</Text>
@@ -284,7 +287,10 @@ export default function HomeScreen() {
             <Feather name="cast" size={24} color="#000" style={styles.iconSpacing} />
           </View>
         </View>
+```
 
+**Step 5: Add the Featured Movie section. Type this conditional rendering:**
+```typescript
         {/* Featured Movie Section */}
         {featuredMovie && (
           <View style={styles.featuredSection}>
@@ -302,12 +308,15 @@ export default function HomeScreen() {
             </View>
           </View>
         )}
+```
 
+**Step 6: Add the Movies List section. Type this section with the map function:**
+```typescript
         {/* Movies List Section */}
         <View style={styles.moviesSection}>
           <Text style={styles.sectionTitle}>All Movies</Text>
           
-          {/* Render list of movies */}
+          {/* Type the map function to render list of movies */}
           {movies.map((movie) => (
             <TouchableOpacity key={movie.id} style={styles.movieCard}>
               <Image
@@ -326,11 +335,9 @@ export default function HomeScreen() {
             </TouchableOpacity>
           ))}
         </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
 ```
+
+**Important:** Type each section one at a time. Don't copy-paste! Build it piece by piece to understand the structure.
 
 ---
 
@@ -338,12 +345,22 @@ export default function HomeScreen() {
 
 ### Step 6.1: Create StyleSheet Object
 
-Add this StyleSheet at the bottom of your file (outside the component):
+**Type the StyleSheet at the bottom of your file** (outside the component). Build it section by section:
 
+**Step 1: Get window dimensions:**
 ```typescript
 const { width } = Dimensions.get('window');
+```
 
+**Step 2: Start the StyleSheet.create() call:**
+```typescript
 const styles = StyleSheet.create({
+  // You'll add style objects here
+});
+```
+
+**Step 3: Type the basic container styles:**
+```typescript
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
@@ -360,6 +377,10 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+```
+
+**Step 4: Type the header styles:**
+```typescript
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -381,6 +402,10 @@ const styles = StyleSheet.create({
   iconSpacing: {
     marginLeft: 16,
   },
+```
+
+**Step 5: Type the featured section styles:**
+```typescript
   featuredSection: {
     width: '100%',
     height: 300,
@@ -419,6 +444,10 @@ const styles = StyleSheet.create({
     color: '#FFD700',
     fontWeight: '600',
   },
+```
+
+**Step 6: Type the movies section styles:**
+```typescript
   moviesSection: {
     paddingHorizontal: 16,
     paddingBottom: 24,
@@ -481,8 +510,9 @@ const styles = StyleSheet.create({
     color: '#FFD700',
     fontWeight: '600',
   },
-});
 ```
+
+**Remember:** Type each style object yourself. Pay attention to the property names (camelCase) and values. This helps you understand React Native styling.
 
 ### Step 6.2: Understanding StyleSheet Properties
 
@@ -517,21 +547,25 @@ const styles = StyleSheet.create({
 
 The `.map()` method creates a new array by calling a function on every element:
 
+**Basic syntax patterns (type these examples yourself):**
 ```typescript
-// Basic syntax
+// Pattern 1: With return statement
 array.map((item) => {
   return <Component key={item.id} data={item} />;
 });
 
-// With arrow function
+// Pattern 2: With arrow function (shorter syntax)
 array.map((item) => <Component key={item.id} data={item} />);
 ```
 
+**Practice:** Type both patterns above to understand the difference. Notice how Pattern 2 is shorter but does the same thing.
+
 ### Step 7.2: Rendering Movie List
 
-In your component, render the movies array:
+In your component, **type** the code to render the movies array using `.map()`:
 
 ```typescript
+{/* Type the map function - start with movies.map() */}
 {movies.map((movie) => (
   <TouchableOpacity key={movie.id} style={styles.movieCard}>
     <Image
@@ -551,9 +585,10 @@ In your component, render the movies array:
 ```
 
 **Important Notes:**
-- Always include `key` prop when rendering lists
+- Always include `key` prop when rendering lists (type `key={movie.id}`)
 - Use unique identifier (like `movie.id`) for the key
 - Each item in the array becomes a component
+- Type the arrow function `(movie) => (...)` yourself to understand the syntax
 
 ---
 
@@ -561,24 +596,32 @@ In your component, render the movies array:
 
 ### Step 8.1: Add Button to Refresh Movies
 
-Add a refresh button that reloads the movies:
+**Type** a refresh button that reloads the movies:
 
+**Step 1: Add a state for refresh count (optional):**
 ```typescript
-// Add this state
+// Type this useState hook
 const [refreshCount, setRefreshCount] = useState(0);
+```
 
-// Modify loadMovies function
+**Step 2: Modify your loadMovies function to update refresh count:**
+```typescript
+// Update your existing loadMovies function - add this line inside setTimeout
 const loadMovies = () => {
   setIsLoading(true);
   setTimeout(() => {
     setMovies(MOVIES_DATA);
     setFeaturedMovie(MOVIES_DATA[0]);
     setIsLoading(false);
+    // Type this line to increment refresh count
     setRefreshCount(refreshCount + 1);
   }, 1000);
 };
+```
 
-// Add refresh button in header
+**Step 3: Add refresh button in header. Type this TouchableOpacity:**
+```typescript
+// Add this inside your header View, after the headerIcons
 <TouchableOpacity onPress={loadMovies} style={styles.refreshButton}>
   <Feather name="refresh-cw" size={20} color="#000" />
 </TouchableOpacity>
@@ -586,24 +629,31 @@ const loadMovies = () => {
 
 ### Step 8.2: Add Movie Selection Handler
 
-Add a function to handle movie selection:
+**Type** a function to handle movie selection:
 
+**Step 1: Create the handler function:**
 ```typescript
+// Type this function inside your component
 const handleMoviePress = (movie: Movie) => {
   console.log('Selected movie:', movie.title);
   // You can add navigation or other logic here
   alert(`You selected: ${movie.title}`);
 };
+```
 
-// Update TouchableOpacity
+**Step 2: Update your TouchableOpacity in the map function:**
+```typescript
+// Update the TouchableOpacity in your movies.map() - add onPress prop
 <TouchableOpacity 
   key={movie.id} 
   style={styles.movieCard}
   onPress={() => handleMoviePress(movie)}
 >
-  {/* Movie content */}
+  {/* Your existing movie content */}
 </TouchableOpacity>
 ```
+
+**Practice:** Type the arrow function `() => handleMoviePress(movie)` yourself to understand how event handlers work.
 
 ---
 
@@ -748,11 +798,17 @@ echo $ANDROID_HOME
 ### Step 10.2: Test Different Scenarios
 
 **Empty State Test:**
-```typescript
-// Temporarily set empty array
-setMovies([]);
 
-// Add empty state UI
+**Step 1: Temporarily test with empty array** (for testing only - remove after):
+```typescript
+// Temporarily modify your loadMovies function to test empty state
+// Change: setMovies(MOVIES_DATA);
+// To: setMovies([]);
+```
+
+**Step 2: Add empty state UI. Type this conditional rendering:**
+```typescript
+// Add this in your movies section, before the map function
 {movies.length === 0 && (
   <View style={styles.emptyContainer}>
     <Text style={styles.emptyText}>No movies available</Text>
@@ -760,7 +816,7 @@ setMovies([]);
 )}
 ```
 
-**Add to styles:**
+**Step 3: Add empty state styles. Type these in your StyleSheet:**
 ```typescript
 emptyContainer: {
   padding: 32,
@@ -772,153 +828,69 @@ emptyText: {
 },
 ```
 
+**Remember:** Type the conditional rendering and styles yourself. This helps you understand how to handle empty states.
+
 ---
 
-## Part 11: Complete Code Example
+## Part 11: Complete Code Structure Reference
 
-Here's the complete `index.tsx` file structure:
+> **⚠️ REMINDER: This is a reference structure, not code to copy-paste!**  
+> Use this as a guide to verify your work. You should have typed all the code yourself following the steps above.
 
-```typescript
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Dimensions,
-  Alert,
-} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+Here's what your complete `index.tsx` file structure should look like:
 
-// Movie interface
-interface Movie {
-  id: string;
-  title: string;
-  year: number;
-  rating: number;
-  genre: string;
-  thumbnail: string;
-}
+**File Structure Overview:**
+1. **Imports** - React, React Native components, icons
+2. **Movie Interface** - TypeScript interface definition
+3. **MOVIES_DATA Array** - Your hardcoded movie data
+4. **Dimensions** - Get window width
+5. **Component Function** - HomeScreen component with:
+   - useState hooks
+   - loadMovies function
+   - useEffect hook
+   - handleMoviePress function
+   - Loading state check
+   - Main return JSX
+6. **Styles** - StyleSheet.create() with all style objects
 
-// Movie data array
-const MOVIES_DATA: Movie[] = [
-  // ... your movie data here
-];
+**Key Sections to Verify:**
 
-const { width } = Dimensions.get('window');
+✅ **Imports section** - Should include useState, useEffect, and all React Native components you're using
 
-export default function HomeScreen() {
-  // useState hooks
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [featuredMovie, setFeaturedMovie] = useState<Movie | null>(null);
+✅ **Movie interface** - Should match the structure of your movie objects
 
-  // Load movies function
-  const loadMovies = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setMovies(MOVIES_DATA);
-      setFeaturedMovie(MOVIES_DATA[0]);
-      setIsLoading(false);
-    }, 1000);
-  };
+✅ **MOVIES_DATA array** - Should contain all 6 movie objects you typed
 
-  // useEffect to load movies on mount
-  useEffect(() => {
-    loadMovies();
-  }, []);
+✅ **useState hooks** - Three hooks: movies, isLoading, featuredMovie
 
-  // Handle movie press
-  const handleMoviePress = (movie: Movie) => {
-    Alert.alert('Movie Selected', `You selected: ${movie.title}`);
-  };
+✅ **loadMovies function** - Sets loading, uses setTimeout, updates state
 
-  // Loading state
-  if (isLoading) {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Loading movies...</Text>
-        </View>
-      </SafeAreaView>
-    );
-  }
+✅ **useEffect** - Calls loadMovies on component mount
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>StreamFlix</Text>
-          <View style={styles.headerIcons}>
-            <Feather name="bell" size={24} color="#000" />
-            <Feather name="cast" size={24} color="#000" style={styles.iconSpacing} />
-          </View>
-        </View>
+✅ **Loading check** - Returns loading UI if isLoading is true
 
-        {/* Featured Movie */}
-        {featuredMovie && (
-          <View style={styles.featuredSection}>
-            <Image
-              source={{ uri: featuredMovie.thumbnail }}
-              style={styles.featuredImage}
-              resizeMode="cover"
-            />
-            <View style={styles.featuredOverlay}>
-              <Text style={styles.featuredTitle}>{featuredMovie.title}</Text>
-              <View style={styles.featuredInfo}>
-                <Text style={styles.featuredYear}>{featuredMovie.year}</Text>
-                <Text style={styles.featuredRating}>⭐ {featuredMovie.rating}</Text>
-              </View>
-            </View>
-          </View>
-        )}
+✅ **Main JSX** - Contains SafeAreaView, ScrollView, Header, Featured Section, Movies List
 
-        {/* Movies List */}
-        <View style={styles.moviesSection}>
-          <Text style={styles.sectionTitle}>All Movies</Text>
-          
-          {movies.length === 0 ? (
-            <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No movies available</Text>
-            </View>
-          ) : (
-            movies.map((movie) => (
-              <TouchableOpacity
-                key={movie.id}
-                style={styles.movieCard}
-                onPress={() => handleMoviePress(movie)}
-              >
-                <Image
-                  source={{ uri: movie.thumbnail }}
-                  style={styles.movieImage}
-                  resizeMode="cover"
-                />
-                <View style={styles.movieInfo}>
-                  <Text style={styles.movieTitle}>{movie.title}</Text>
-                  <View style={styles.movieDetails}>
-                    <Text style={styles.movieYear}>{movie.year}</Text>
-                    <Text style={styles.movieGenre}>{movie.genre}</Text>
-                    <Text style={styles.movieRating}>⭐ {movie.rating}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))
-          )}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+✅ **map() function** - Renders each movie from the array
 
-// Styles
-const styles = StyleSheet.create({
-  // ... all your styles here
-});
-```
+✅ **Styles** - All style objects defined in StyleSheet.create()
+
+**Checklist:**
+- [ ] All code typed manually (not copy-pasted)
+- [ ] All imports are correct
+- [ ] Movie interface matches your data
+- [ ] All 6 movies in MOVIES_DATA array
+- [ ] useState hooks properly initialized
+- [ ] loadMovies function works correctly
+- [ ] useEffect calls loadMovies
+- [ ] Loading state displays correctly
+- [ ] Header renders with icons
+- [ ] Featured movie displays
+- [ ] Movie list renders using .map()
+- [ ] All styles are defined
+- [ ] App runs without errors
+
+**If you're stuck:** Review the individual steps above. Each step breaks down what you need to type. Don't copy-paste - type it yourself!
 
 ---
 
