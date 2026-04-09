@@ -4,7 +4,7 @@
 
 Build a **My List** screen that shows a saved watchlist of movies. All movie data must come from a **dummy JSON file** in your project (no REST API, no TMDB). Each item shows a poster, title, year, duration, and rating. When the user taps the **Play** control on an item, a **full-screen modal** opens and plays a **YouTube trailer** using the video ID stored in your JSON. The video should **autoplay** after the modal opens (the tap counts as a user gesture, which helps on mobile).
 
-You will practice: **Expo Router** (tabs or single screen), **reading local JSON**, **lists and grids**, **Modal**, **WebView**, and **TypeScript** types.
+You will practice: **Expo Router** (bottom tabs), **reading local JSON**, **lists and grids**, **Modal**, **WebView**, and **TypeScript** types.
 
 ---
 
@@ -17,7 +17,7 @@ You will practice: **Expo Router** (tabs or single screen), **reading local JSON
 
 ---
 
-## Project setup (all tracks)
+## Project setup
 
 Create the app with the **default** Expo template. From your terminal, run **`npx create-expo-app`** with a project name and **do not** pass `--template` (the default template is used automatically):
 
@@ -28,9 +28,15 @@ cd my-movie-app
 
 You may use `npx create-expo-app@latest my-movie-app` instead if you want to align with the newest `create-expo-app` version; both produce the same kind of default project.
 
-This scaffolds a project that **includes an `app/` folder** at the repo root (Expo Router file-based routing). You should see files such as `app/_layout.tsx` and `app/index.tsx`, and often an `app/(tabs)/` group depending on the current default layout.
+This scaffolds a project that **includes an `app/` folder** at the repo root (Expo Router file-based routing). The default template usually includes a **tabs** layout:
 
-**Requirement:** Your project **must** have an **`app/`** directory. If it does not, delete the folder and create the project again using **`npx create-expo-app`** only (do not use `--template blank` or other templates unless your instructor says otherwise).
+- **`app/_layout.tsx`** — root layout (often a `Stack` that contains the tab navigator).
+- **`app/(tabs)/`** — folder for tab screens. Inside it, **`_layout.tsx`** defines the **bottom tab bar** (`<Tabs>` and each `<Tabs.Screen>`).
+- Each **`Tabs.Screen`** **`name`** must match a **route file** in the same folder: for example `name="index"` → **`index.tsx`**, `name="explore"` → **`explore.tsx`**.
+
+You will **add a new file** (e.g. `my-list.tsx`) and **register a new `Tabs.Screen`** so another tab appears in the bar.
+
+**Requirement:** Your project **must** have an **`app/`** directory with a **`app/(tabs)/`** group and **`app/(tabs)/_layout.tsx`**. If your project does not use tabs, create a new app with **`npx create-expo-app`** only (default template). Do not use `--template blank` unless your instructor says otherwise.
 
 Then install dependencies if prompted and start the dev server:
 
@@ -59,105 +65,66 @@ Estimated time: **3–4 hours** (first time with WebView + Modal).
 
 ---
 
-## Two Ways to Follow This Lab
+## Part 1: Add the My List tab to the default tab template
 
-You can submit **either** setup. Both are valid.
+Follow **Project setup** above so you have the default **`app/(tabs)/`** layout. You will add **one new screen file** and **one new `Tabs.Screen`** entry so “My List” appears in the bottom tab bar.
 
-| | **Track A — Third tab (multi-tab app)** | **Track B — Single-screen app (no tab bar)** |
-|---|----------------------------------------|-----------------------------------------------|
-| **Use case** | Your project already has Home, Search, etc., and you add My List as another tab. | You only need one screen for grading; no bottom tabs. |
-| **Main file** | `app/(tabs)/my-list.tsx` | `app/index.tsx` (or one screen in a `Stack`) |
-| **Navigation** | Register a new `Tabs.Screen` in `app/(tabs)/_layout.tsx` | Root layout shows only this screen (see Part 1). |
+### How the default tabs template works
 
-**Important:** The **UI code** for the My List screen is almost the same in both tracks—you only change **where** the file lives and **whether** you add a tab.
+- **`app/(tabs)/_layout.tsx`** exports a layout component that wraps children in **`<Tabs>`** (from `expo-router`).
+- Each **`<Tabs.Screen>`** describes **one tab**: its `name` is the **route segment** and must match a **filename** in `app/(tabs)/` (without `.tsx`). Example: `name="index"` → `index.tsx`, `name="my-list"` → **`my-list.tsx`** (use kebab-case in the file name to match the route).
+- **`options`** on each screen set the **label** under the icon (`title`) and the **`tabBarIcon`** function (return a Feather / Ionicons component).
 
----
+### Step 1.1: Open the tab layout file
 
-## Part 1: Single-Screen App (Track B Only)
+Open **`app/(tabs)/_layout.tsx`**. Read the existing `<Tabs.Screen>` entries so you see the pattern (`name`, `options.title`, `options.tabBarIcon`).
 
-Skip this part if you use **Track A** (tabs).
+### Step 1.2: Create the My List screen file
 
-### Step 1.1: Use the default project with an `app/` folder
-
-1. Follow **Project setup (all tracks)** above: create the app with **`npx create-expo-app`** (default template) and confirm you have an **`app/`** folder.
-
-2. For **Track B**, you will show **only** the My List UI with **no** bottom tab bar. The default template may already include tabs under `app/(tabs)/`. You can either:
-   - **Option A (recommended):** Change the root `app/_layout.tsx` to a **Stack** with a single screen and put your My List screen in **`app/index.tsx`** (see Step 1.2), **or**
-   - **Option B:** Keep the generated structure but set **`app/(tabs)/_layout.tsx`** so only one tab is visible, and implement My List in that single tab’s file—still inside **`app/`**.
-
-The important rule: **all routes stay under the `app/` directory** using Expo Router.
-
-### Step 1.2: Root layout with one screen
-
-Your `app/_layout.tsx` should render a **Stack** (or default layout) so that `app/index.tsx` is the only screen:
+Create a new file **`app/(tabs)/my-list.tsx`** (same folder as `index.tsx`). Start with a placeholder so you can verify routing:
 
 ```tsx
-import { Stack } from 'expo-router';
+import { View, Text } from 'react-native';
 
-export default function RootLayout() {
+export default function MyListScreen() {
   return (
-    <Stack screenOptions={{ headerShown: false }} />
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>My List</Text>
+    </View>
   );
 }
 ```
 
-(Exact imports may match your Expo Router version; the goal is **one stack, one screen**.)
+Use **`export default`** — Expo Router requires a default export for the screen component.
 
-### Step 1.3: Put the My List UI in `app/index.tsx`
+### Step 1.3: Register the new tab in `_layout.tsx`
 
-All steps in **Parts 3–7** below refer to “the My List screen file.” For Track B, that file is **`app/index.tsx`**.
+In **`app/(tabs)/_layout.tsx`**, add another **`<Tabs.Screen />`** **after** or **among** the existing screens:
 
-**Checkpoint (Track B):** Running the app opens **only** your My List screen with no bottom tab bar.
+- **`name="my-list"`** — must match the file **`my-list.tsx`** (Expo Router maps this name to that file).
+- **`options.title`:** `"My List"` (or the label your course uses).
+- **`options.tabBarIcon`:** return an icon, e.g. from **`@expo/vector-icons`** (Feather **`bookmark`** fits “My List”).
 
----
+Save and reload the app. You should see **one more tab** in the bottom bar; tapping it opens your placeholder.
 
-## Part 2: Add the My List Tab (Track A Only)
+### Step 1.4: Tab order (third tab)
 
-Skip this part if you use **Track B**.
+If your course requires My List as the **third** tab, reorder the `<Tabs.Screen>` components in **`_layout.tsx`** so “My List” is the third screen in the list (order in JSX usually matches left-to-right order in the tab bar).
 
-Use the same project as in **Project setup (all tracks)** (`npx create-expo-app` with an **`app/`** folder). The default template often includes `app/(tabs)/`; if yours only has `app/index.tsx`, add an `app/(tabs)/` group to match your course structure, or follow Track B.
+**Checkpoint:** The new tab appears, uses the correct icon/title, and shows the placeholder until you build the full UI in **`app/(tabs)/my-list.tsx`**.
 
-### Step 2.1: Locate the tab layout
-
-- Open **`app/(tabs)/_layout.tsx`**.
-
-### Step 2.2: Add a new tab screen
-
-1. Create **`app/(tabs)/my-list.tsx`** with a placeholder:
-
-   ```tsx
-   import { View, Text } from 'react-native';
-
-   export default function MyListScreen() {
-     return (
-       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-         <Text>My List</Text>
-       </View>
-     );
-   }
-   ```
-
-2. In **`_layout.tsx`**, add a `<Tabs.Screen />` with:
-   - `name="my-list"` (must match the filename `my-list.tsx`)
-   - `title="My List"` (or similar)
-   - `tabBarIcon` using `@expo/vector-icons` (e.g. Feather `bookmark`)
-
-### Step 2.3: Order of tabs
-
-Place the My List tab **third** if your instructor requires “third tab”; otherwise follow the course order.
-
-**Checkpoint (Track A):** Tapping the new tab shows the placeholder.
+All later parts assume your My List UI lives in **`app/(tabs)/my-list.tsx`**.
 
 ---
 
-## Part 3: Dummy data as a JSON file
+## Part 2: Dummy data as a JSON file
 
 All movie rows must come from a **single JSON file** committed to the repo, for example:
 
 **Path:** `data/my-list-dummy.json`  
 (Create the `data` folder at the **project root**, next to `app/`, `package.json`, etc.)
 
-### Step 3.1: JSON shape (schema)
+### Step 2.1: JSON shape (schema)
 
 Each movie object should include at least:
 
@@ -175,7 +142,7 @@ Each movie object should include at least:
 
 `https://www.youtube.com/embed/<youtubeTrailerId>?autoplay=1&playsinline=1&rel=0&modestbranding=1`
 
-### Step 3.2: Sample `data/my-list-dummy.json`
+### Step 2.2: Sample `data/my-list-dummy.json`
 
 You may copy this file verbatim and then edit titles/images if you want. Replace `youtubeTrailerId` values with **valid** YouTube video IDs (search any movie trailer on YouTube; the ID is in the watch URL `v=XXXXXXXXXXX`).
 
@@ -244,7 +211,7 @@ You may copy this file verbatim and then edit titles/images if you want. Replace
 
 In this course repository, the same sample content is also available as the file **`data/my-list-dummy.json`** so you can copy it or import it directly while following the lab.
 
-### Step 3.3: TypeScript type
+### Step 2.3: TypeScript type
 
 Create a type that matches one row, e.g. in `data/my-list-types.ts` or at the top of your screen file:
 
@@ -268,11 +235,11 @@ export interface MyListJson {
 
 ---
 
-## Part 4: Import JSON in React Native / Expo
+## Part 3: Import JSON in React Native / Expo
 
-### Step 4.1: Import the file
+### Step 3.1: Import the file
 
-In your My List screen file:
+In **`app/(tabs)/my-list.tsx`** (your My List screen):
 
 ```typescript
 import myListData from '@/data/my-list-dummy.json';
@@ -285,7 +252,7 @@ Cast if needed so TypeScript trusts the shape:
 const { movies } = myListData as MyListJson;
 ```
 
-### Step 4.2: `tsconfig.json`
+### Step 3.2: `tsconfig.json`
 
 Ensure JSON imports work. Expo’s base config often includes `resolveJsonModule`. If you see an error like “Cannot import JSON,” add under `compilerOptions`:
 
@@ -293,11 +260,11 @@ Ensure JSON imports work. Expo’s base config often includes `resolveJsonModule
 "resolveJsonModule": true
 ```
 
-### Step 4.3: Path alias `@/*`
+### Step 3.3: Path alias `@/*`
 
 If `@/data/...` fails, use a relative import from your screen file, e.g. `../../data/my-list-dummy.json`, or configure `paths` in `tsconfig.json` to match your project.
 
-### Step 4.4: State for the list
+### Step 3.4: State for the list
 
 ```typescript
 const [movies, setMovies] = useState<MyListMovie[]>([]);
@@ -320,20 +287,20 @@ Optional: wrap in `setTimeout(..., 300)` to practice a loading spinner.
 
 ---
 
-## Part 5: Layout and grid
+## Part 4: Layout and grid
 
-### Step 5.1: Screen structure
+### Step 4.1: Screen structure
 
 - Outer `View` with `flex: 1` and background (respect light/dark mode if required).
 - **Header:** title “My List” + item count.
 - **`ScrollView`** wrapping the grid so small screens can scroll.
 
-### Step 5.2: Two-column grid
+### Step 4.2: Two-column grid
 
 1. Use `Dimensions.get('window').width` to compute card width (account for horizontal padding and gap between columns).
 2. Use `flexDirection: 'row'`, `flexWrap: 'wrap'`, and `justifyContent: 'space-between'` **or** a fixed width per card—match patterns from your course.
 
-### Step 5.3: Movie card
+### Step 4.3: Movie card
 
 For each `movie` in `movies.map()`:
 
@@ -342,16 +309,16 @@ For each `movie` in `movies.map()`:
 - **Rating** badge (e.g. star icon + `movie.rating`).
 - **Title** (`numberOfLines={1}`).
 - **Subtitle:** `year • duration`.
-- **Play** `TouchableOpacity` (see Part 6).
+- **Play** `TouchableOpacity` (see Part 5).
 - Optional: bookmark icon (can be decorative only for this lab).
 
 **Checkpoint:** List matches JSON; layout does not overflow horizontally.
 
 ---
 
-## Part 6: Trailer modal + WebView + autoplay
+## Part 5: Trailer modal + WebView + autoplay
 
-### Step 6.1: Install WebView
+### Step 5.1: Install WebView
 
 ```bash
 npx expo install react-native-webview
@@ -359,7 +326,7 @@ npx expo install react-native-webview
 
 Restart the dev server after installing native modules.
 
-### Step 6.2: State for the modal
+### Step 5.2: State for the modal
 
 - `modalVisible` (boolean)
 - `selectedMovie` (`MyListMovie | null`)
@@ -371,14 +338,14 @@ const embedUri = selectedMovie
   : undefined;
 ```
 
-### Step 6.3: Open / close
+### Step 5.3: Open / close
 
 - **Play onPress:** set `selectedMovie` to that movie, set `modalVisible` to `true`.
 - **Close:** set `modalVisible` to `false`, then `selectedMovie` to `null` (clearing stops the WebView when you unmount or clear `source`).
 
 Use React Native’s **`Modal`** with `visible={modalVisible}`, `animationType="slide"`, `presentationStyle="fullScreen"` (iOS), and `onRequestClose` for Android back button.
 
-### Step 6.4: WebView inside the modal
+### Step 5.4: WebView inside the modal
 
 - Header row: movie title + close (`X`) button.
 - **`WebView`** with `source={{ uri: embedUri! }}` and `style={{ flex: 1, backgroundColor: '#000' }}`.
@@ -391,7 +358,7 @@ Use React Native’s **`Modal`** with `visible={modalVisible}`, `animationType="
 
 Use `key={selectedMovie.id}` on `WebView` so switching movies remounts the player.
 
-### Step 6.5: Safe area
+### Step 5.5: Safe area
 
 If you use `react-native-safe-area-context`, wrap modal content in `SafeAreaView` with `edges={['top', 'left', 'right']}`. If your app root does not use `SafeAreaProvider`, insets may be zero; still acceptable for the lab unless your instructor requires notched devices.
 
@@ -399,7 +366,7 @@ If you use `react-native-safe-area-context`, wrap modal content in `SafeAreaView
 
 ---
 
-## Part 7: Empty and loading states
+## Part 6: Empty and loading states
 
 ### Loading
 
@@ -413,7 +380,7 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 
 ---
 
-## Part 8: Testing checklist
+## Part 7: Testing checklist
 
 - [ ] Data loads from **`data/my-list-dummy.json`** only (no movie list API).
 - [ ] Header shows correct **item count**.
@@ -421,7 +388,7 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 - [ ] **Play** opens modal with correct **title**.
 - [ ] **Close** dismisses modal; video stops (no audio in background).
 - [ ] **Autoplay** works at least after the Play tap (embed URL includes `autoplay=1`).
-- [ ] Works on **Track A** (tab) or **Track B** (single screen), as chosen.
+- [ ] **My List** tab is registered and opens the completed screen from the tab bar.
 
 ---
 
@@ -429,10 +396,8 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 
 1. **`data/my-list-dummy.json`** with the `movies` array.
 2. **Types** for your JSON (file or inline).
-3. **My List screen** file:
-   - Track A: `app/(tabs)/my-list.tsx` + updated `app/(tabs)/_layout.tsx`
-   - Track B: `app/index.tsx` (and minimal `app/_layout.tsx`)
-4. **Short report** (if required): which track you used, how you imported JSON, and one problem you solved (e.g. WebView, layout width, TypeScript).
+3. **`app/(tabs)/my-list.tsx`** with the full My List UI, plus **`app/(tabs)/_layout.tsx`** updated with the new `Tabs.Screen` for My List.
+4. **Short report** (if required): how you added the tab, how you imported JSON, and one problem you solved (e.g. WebView, layout width, TypeScript).
 
 ---
 
@@ -444,12 +409,13 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 | UI | Header, grid, card fields, loading/empty states |
 | Interaction | Play opens modal; close works; WebView shows YouTube embed |
 | Code quality | Typed data, `key` on list items, readable structure |
-| Flexibility | Student can run **either** single-screen or tab version |
+| Tab integration | My List appears as a tab from the default template; `name` matches `my-list.tsx` |
 
 ---
 
 ## Hints (no full solution)
 
+- **Tabs:** The string in **`name="..."`** must match the route file: **`my-list.tsx`** → **`name="my-list"`** (kebab-case).
 - **Card width:** `(screenWidth - horizontalPadding * 2 - gapBetweenColumns) / 2`.
 - **YouTube id:** Always 11 characters in standard URLs; copy from `youtube.com/watch?v=`.
 - **Modal + WebView:** If the screen flashes black, check `flex: 1` on the WebView container.
@@ -461,6 +427,7 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 
 | Problem | Things to try |
 |---------|----------------|
+| New tab does not appear or shows “Unmatched route” | Ensure **`name`** on `Tabs.Screen` matches the filename (e.g. `name="my-list"` ↔ **`my-list.tsx`**) and the file is inside **`app/(tabs)/`**. |
 | Cannot import JSON | Add `"resolveJsonModule": true`; restart TS server |
 | `@/` import fails | Fix `paths` in `tsconfig` or use relative path |
 | WebView blank | Check network; try another `youtubeTrailerId`; ensure `https:` URL |
@@ -481,7 +448,7 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 ## Summary
 
 - Use a **dummy JSON file** under `data/` as the only source for the watchlist and trailer IDs.
-- Implement the **same screen** in **`app/(tabs)/my-list.tsx`** (third tab) **or** **`app/index.tsx`** (single-screen app).
+- Add **`app/(tabs)/my-list.tsx`** and register it in **`app/(tabs)/_layout.tsx`** so **My List** appears in the default bottom tab bar.
 - Use **Modal + WebView + YouTube embed URL** for playback with **autoplay** query parameters.
 
 This lab is intentionally **API-free** for the list so you can focus on layout, navigation shape, and embedded video.
