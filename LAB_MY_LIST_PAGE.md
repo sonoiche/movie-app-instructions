@@ -17,6 +17,29 @@ You will practice: **Expo Router** (tabs or single screen), **reading local JSON
 
 ---
 
+## Project setup (all tracks)
+
+Create the app with the **default** Expo template. From your terminal, run **`npx create-expo-app`** with a project name and **do not** pass `--template` (the default template is used automatically):
+
+```bash
+npx create-expo-app my-movie-app
+cd my-movie-app
+```
+
+You may use `npx create-expo-app@latest my-movie-app` instead if you want to align with the newest `create-expo-app` version; both produce the same kind of default project.
+
+This scaffolds a project that **includes an `app/` folder** at the repo root (Expo Router file-based routing). You should see files such as `app/_layout.tsx` and `app/index.tsx`, and often an `app/(tabs)/` group depending on the current default layout.
+
+**Requirement:** Your project **must** have an **`app/`** directory. If it does not, delete the folder and create the project again using **`npx create-expo-app`** only (do not use `--template blank` or other templates unless your instructor says otherwise).
+
+Then install dependencies if prompted and start the dev server:
+
+```bash
+npx expo start
+```
+
+---
+
 ## Duration
 
 Estimated time: **3–4 hours** (first time with WebView + Modal).
@@ -44,32 +67,27 @@ You can submit **either** setup. Both are valid.
 |---|----------------------------------------|-----------------------------------------------|
 | **Use case** | Your project already has Home, Search, etc., and you add My List as another tab. | You only need one screen for grading; no bottom tabs. |
 | **Main file** | `app/(tabs)/my-list.tsx` | `app/index.tsx` (or one screen in a `Stack`) |
-| **Navigation** | Register a new `Tabs.Screen` in `app/(tabs)/_layout.tsx` | Root layout shows only this screen (see Part 0). |
+| **Navigation** | Register a new `Tabs.Screen` in `app/(tabs)/_layout.tsx` | Root layout shows only this screen (see Part 1). |
 
 **Important:** The **UI code** for the My List screen is almost the same in both tracks—you only change **where** the file lives and **whether** you add a tab.
 
 ---
 
-## Part 0: Single-Screen App (Track B Only)
+## Part 1: Single-Screen App (Track B Only)
 
 Skip this part if you use **Track A** (tabs).
 
-### Step 0.1: Create or simplify the project
+### Step 1.1: Use the default project with an `app/` folder
 
-1. Create a new Expo app with the **blank** template (recommended for one screen):
+1. Follow **Project setup (all tracks)** above: create the app with **`npx create-expo-app`** (default template) and confirm you have an **`app/`** folder.
 
-   ```bash
-   npx create-expo-app@latest my-list-lab --template blank
-   cd my-list-lab
-   ```
+2. For **Track B**, you will show **only** the My List UI with **no** bottom tab bar. The default template may already include tabs under `app/(tabs)/`. You can either:
+   - **Option A (recommended):** Change the root `app/_layout.tsx` to a **Stack** with a single screen and put your My List screen in **`app/index.tsx`** (see Step 1.2), **or**
+   - **Option B:** Keep the generated structure but set **`app/(tabs)/_layout.tsx`** so only one tab is visible, and implement My List in that single tab’s file—still inside **`app/`**.
 
-2. If your template uses **Expo Router**, you should have an `app` folder. Ensure you have at least:
-   - `app/_layout.tsx`
-   - `app/index.tsx`
+The important rule: **all routes stay under the `app/` directory** using Expo Router.
 
-3. If your blank template **does not** use Expo Router, use the **tabs** template instead and **ignore** the tab bar visually by only implementing `app/(tabs)/index.tsx` as your full My List UI and hiding other tabs in `_layout.tsx`—or switch to a Router-based blank. The simplest path is **Expo Router + single `index.tsx`**.
-
-### Step 0.2: Root layout with one screen
+### Step 1.2: Root layout with one screen
 
 Your `app/_layout.tsx` should render a **Stack** (or default layout) so that `app/index.tsx` is the only screen:
 
@@ -85,23 +103,25 @@ export default function RootLayout() {
 
 (Exact imports may match your Expo Router version; the goal is **one stack, one screen**.)
 
-### Step 0.3: Put the My List UI in `app/index.tsx`
+### Step 1.3: Put the My List UI in `app/index.tsx`
 
-All steps in **Parts 2–6** below refer to “the My List screen file.” For Track B, that file is **`app/index.tsx`**.
+All steps in **Parts 3–7** below refer to “the My List screen file.” For Track B, that file is **`app/index.tsx`**.
 
 **Checkpoint (Track B):** Running the app opens **only** your My List screen with no bottom tab bar.
 
 ---
 
-## Part 1: Add the My List Tab (Track A Only)
+## Part 2: Add the My List Tab (Track A Only)
 
 Skip this part if you use **Track B**.
 
-### Step 1.1: Locate the tab layout
+Use the same project as in **Project setup (all tracks)** (`npx create-expo-app` with an **`app/`** folder). The default template often includes `app/(tabs)/`; if yours only has `app/index.tsx`, add an `app/(tabs)/` group to match your course structure, or follow Track B.
+
+### Step 2.1: Locate the tab layout
 
 - Open **`app/(tabs)/_layout.tsx`**.
 
-### Step 1.2: Add a new tab screen
+### Step 2.2: Add a new tab screen
 
 1. Create **`app/(tabs)/my-list.tsx`** with a placeholder:
 
@@ -122,7 +142,7 @@ Skip this part if you use **Track B**.
    - `title="My List"` (or similar)
    - `tabBarIcon` using `@expo/vector-icons` (e.g. Feather `bookmark`)
 
-### Step 1.3: Order of tabs
+### Step 2.3: Order of tabs
 
 Place the My List tab **third** if your instructor requires “third tab”; otherwise follow the course order.
 
@@ -130,14 +150,14 @@ Place the My List tab **third** if your instructor requires “third tab”; oth
 
 ---
 
-## Part 2: Dummy data as a JSON file
+## Part 3: Dummy data as a JSON file
 
 All movie rows must come from a **single JSON file** committed to the repo, for example:
 
 **Path:** `data/my-list-dummy.json`  
 (Create the `data` folder at the **project root**, next to `app/`, `package.json`, etc.)
 
-### Step 2.1: JSON shape (schema)
+### Step 3.1: JSON shape (schema)
 
 Each movie object should include at least:
 
@@ -155,7 +175,7 @@ Each movie object should include at least:
 
 `https://www.youtube.com/embed/<youtubeTrailerId>?autoplay=1&playsinline=1&rel=0&modestbranding=1`
 
-### Step 2.2: Sample `data/my-list-dummy.json`
+### Step 3.2: Sample `data/my-list-dummy.json`
 
 You may copy this file verbatim and then edit titles/images if you want. Replace `youtubeTrailerId` values with **valid** YouTube video IDs (search any movie trailer on YouTube; the ID is in the watch URL `v=XXXXXXXXXXX`).
 
@@ -224,7 +244,7 @@ You may copy this file verbatim and then edit titles/images if you want. Replace
 
 In this course repository, the same sample content is also available as the file **`data/my-list-dummy.json`** so you can copy it or import it directly while following the lab.
 
-### Step 2.3: TypeScript type
+### Step 3.3: TypeScript type
 
 Create a type that matches one row, e.g. in `data/my-list-types.ts` or at the top of your screen file:
 
@@ -248,9 +268,9 @@ export interface MyListJson {
 
 ---
 
-## Part 3: Import JSON in React Native / Expo
+## Part 4: Import JSON in React Native / Expo
 
-### Step 3.1: Import the file
+### Step 4.1: Import the file
 
 In your My List screen file:
 
@@ -265,7 +285,7 @@ Cast if needed so TypeScript trusts the shape:
 const { movies } = myListData as MyListJson;
 ```
 
-### Step 3.2: `tsconfig.json`
+### Step 4.2: `tsconfig.json`
 
 Ensure JSON imports work. Expo’s base config often includes `resolveJsonModule`. If you see an error like “Cannot import JSON,” add under `compilerOptions`:
 
@@ -273,11 +293,11 @@ Ensure JSON imports work. Expo’s base config often includes `resolveJsonModule
 "resolveJsonModule": true
 ```
 
-### Step 3.3: Path alias `@/*`
+### Step 4.3: Path alias `@/*`
 
 If `@/data/...` fails, use a relative import from your screen file, e.g. `../../data/my-list-dummy.json`, or configure `paths` in `tsconfig.json` to match your project.
 
-### Step 3.4: State for the list
+### Step 4.4: State for the list
 
 ```typescript
 const [movies, setMovies] = useState<MyListMovie[]>([]);
@@ -300,20 +320,20 @@ Optional: wrap in `setTimeout(..., 300)` to practice a loading spinner.
 
 ---
 
-## Part 4: Layout and grid
+## Part 5: Layout and grid
 
-### Step 4.1: Screen structure
+### Step 5.1: Screen structure
 
 - Outer `View` with `flex: 1` and background (respect light/dark mode if required).
 - **Header:** title “My List” + item count.
 - **`ScrollView`** wrapping the grid so small screens can scroll.
 
-### Step 4.2: Two-column grid
+### Step 5.2: Two-column grid
 
 1. Use `Dimensions.get('window').width` to compute card width (account for horizontal padding and gap between columns).
 2. Use `flexDirection: 'row'`, `flexWrap: 'wrap'`, and `justifyContent: 'space-between'` **or** a fixed width per card—match patterns from your course.
 
-### Step 4.3: Movie card
+### Step 5.3: Movie card
 
 For each `movie` in `movies.map()`:
 
@@ -322,16 +342,16 @@ For each `movie` in `movies.map()`:
 - **Rating** badge (e.g. star icon + `movie.rating`).
 - **Title** (`numberOfLines={1}`).
 - **Subtitle:** `year • duration`.
-- **Play** `TouchableOpacity` (see Part 5).
+- **Play** `TouchableOpacity` (see Part 6).
 - Optional: bookmark icon (can be decorative only for this lab).
 
 **Checkpoint:** List matches JSON; layout does not overflow horizontally.
 
 ---
 
-## Part 5: Trailer modal + WebView + autoplay
+## Part 6: Trailer modal + WebView + autoplay
 
-### Step 5.1: Install WebView
+### Step 6.1: Install WebView
 
 ```bash
 npx expo install react-native-webview
@@ -339,7 +359,7 @@ npx expo install react-native-webview
 
 Restart the dev server after installing native modules.
 
-### Step 5.2: State for the modal
+### Step 6.2: State for the modal
 
 - `modalVisible` (boolean)
 - `selectedMovie` (`MyListMovie | null`)
@@ -351,14 +371,14 @@ const embedUri = selectedMovie
   : undefined;
 ```
 
-### Step 5.3: Open / close
+### Step 6.3: Open / close
 
 - **Play onPress:** set `selectedMovie` to that movie, set `modalVisible` to `true`.
 - **Close:** set `modalVisible` to `false`, then `selectedMovie` to `null` (clearing stops the WebView when you unmount or clear `source`).
 
 Use React Native’s **`Modal`** with `visible={modalVisible}`, `animationType="slide"`, `presentationStyle="fullScreen"` (iOS), and `onRequestClose` for Android back button.
 
-### Step 5.4: WebView inside the modal
+### Step 6.4: WebView inside the modal
 
 - Header row: movie title + close (`X`) button.
 - **`WebView`** with `source={{ uri: embedUri! }}` and `style={{ flex: 1, backgroundColor: '#000' }}`.
@@ -371,7 +391,7 @@ Use React Native’s **`Modal`** with `visible={modalVisible}`, `animationType="
 
 Use `key={selectedMovie.id}` on `WebView` so switching movies remounts the player.
 
-### Step 5.5: Safe area
+### Step 6.5: Safe area
 
 If you use `react-native-safe-area-context`, wrap modal content in `SafeAreaView` with `edges={['top', 'left', 'right']}`. If your app root does not use `SafeAreaProvider`, insets may be zero; still acceptable for the lab unless your instructor requires notched devices.
 
@@ -379,7 +399,7 @@ If you use `react-native-safe-area-context`, wrap modal content in `SafeAreaView
 
 ---
 
-## Part 6: Empty and loading states
+## Part 7: Empty and loading states
 
 ### Loading
 
@@ -393,7 +413,7 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 
 ---
 
-## Part 7: Testing checklist
+## Part 8: Testing checklist
 
 - [ ] Data loads from **`data/my-list-dummy.json`** only (no movie list API).
 - [ ] Header shows correct **item count**.
