@@ -452,3 +452,5 @@ If `movies.length === 0`, show an icon (e.g. Feather `bookmark`) and short messa
 - Use **Modal + WebView + YouTube embed URL** for playback with **autoplay** query parameters.
 
 This lab is intentionally **API-free** for the list so you can focus on layout, navigation shape, and embedded video.
+
+**Open the list_page_assets** for source code, please take note that the source code is for `my-list.tsx` file only.
